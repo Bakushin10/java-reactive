@@ -1,0 +1,4 @@
+com/javareactive/javareactive/JavareactiveApplication.java
+ com.javareactive.javareactive.JavareactiveApplication
+com/javareactive/javareactive/controller/healthcheckController.java
+ com.javareactive.javareactive.controller.healthcheckController

@@ -4,8 +4,8 @@ plugins {
 	id 'java'
 }
 
-group = 'com.javareactive'
-version = '0.0.1-SNAPSHOT'
+group = "$serviceGroupId"
+version = "$serviceVersion"
 sourceCompatibility = '11'
 
 configurations {
@@ -75,19 +75,21 @@ task downloadDependencies (type: Exec) {
 
 task buildDockerimage(type: Exec) {
 	workingDir "$projectDir"
-	commandLine 'docker', 'build', '.', '-t', "$serviceGroupId/$serviceApplicationName:$serviceVersion"
+	commandLine 'docker', 'build', '-t', "$serviceGroupId/$serviceApplicationName:$serviceVersion", '-f', 'Dockerfile.componentTest', '.'
 }
 
 task composeUp(type: Exec) {
-	dependsOn buildDockerimage
+	// dependsOn buildDockerimage
 	workingDir "$projectDir"
 	environment << [ SERVICE_TAG: "$serviceVersion", SERVICE_GROUP: "$serviceGroupId", SERVICE_NAME: "$serviceApplicationName", SPRING_PROFILE: "docker" ]
 	commandLine 'docker-compose', 'up', '-d'
 }
+
 task composeDependenciesUp(type: Exec) {
 	workingDir "$projectDir"
 	commandLine 'docker-compose', '-f', 'docker-compose.yml', 'up', '-d'
 }
+
 task composeDown(type: Exec) {
 	workingDir "$projectDir"
 	commandLine 'docker-compose', 'down', '-t', '60', '-v'

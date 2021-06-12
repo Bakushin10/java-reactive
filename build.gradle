@@ -75,13 +75,13 @@ task downloadDependencies (type: Exec) {
 
 task buildDockerimage(type: Exec) {
 	workingDir "$projectDir"
-	commandLine 'docker', 'build', '-t', "$serviceGroupId/$serviceApplicationName:$serviceVersion", '-f', 'Dockerfile.componentTest', '.'
+	commandLine 'docker-compose', 'build', 'java-service'
 }
 
 task composeUp(type: Exec) {
 	// dependsOn buildDockerimage
 	workingDir "$projectDir"
-	environment << [ SERVICE_TAG: "$serviceVersion", SERVICE_GROUP: "$serviceGroupId", SERVICE_NAME: "$serviceApplicationName", SPRING_PROFILE: "docker" ]
+	//environment << [ SERVICE_TAG: "$serviceVersion", SERVICE_GROUP: "$serviceGroupId", SERVICE_NAME: "$serviceApplicationName", SPRING_PROFILE: "docker" ]
 	commandLine 'docker-compose', 'up', '-d'
 }
 
@@ -102,7 +102,6 @@ task waitForService {
 		while(responseCode != 200) {
 			sleep 1000
 			try {
-				//def req = "http://localhost:4000/actuator/health".toURL().openConnection()
 				def req = "http://localhost:8080/api/v1/health".toURL().openConnection()
 				responseCode = req.getResponseCode()
 				logger.log(LogLevel.INFO, "Response returned from service $responseCode")

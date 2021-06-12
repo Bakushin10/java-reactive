@@ -5,9 +5,8 @@ WORKDIR /app
 COPY . .
 RUN gradle build
 
-
 FROM adoptopenjdk/openjdk11:alpine-jre
-ENV BUILD_FILE=/app/build/libs/javareactive-0.0.1-SNAPSHOT.jar \
+ENV BUILD_FILE=/app/build/libs/javareactive-latest.jar \
     APP=app/build-artifact.jar
 
 COPY --from=builder $BUILD_FILE $APP

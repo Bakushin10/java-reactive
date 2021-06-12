@@ -12,10 +12,27 @@ services:
         environment:
             - CONTEXT_PATH=${CONTEXT_PATH}
             - SPRING_PROFILE=${SPRING_PROFILE}
-            - R2DBC_HOST=${R2DBC_HOST}
+
+            # switch between R2DBC_HOST_CONTAINER and R2DBC_HOST_LOCALHOST
+            - R2DBC_HOST=${R2DBC_HOST_CONTAINER}
             - R2DBC_DB=${R2DBC_DB}
             - R2DBC_USERNAME=${R2DBC_USERNAME}
             - R2DBC_PASSWORD=${R2DBC_PASSWORD}
+        networks:
+            - component-test-network
+    
+    postgres:
+        image: ${POSTGRES_IMAGE}
+        container_name: postgres-component-test
+        ports:
+            - '5432:5432'
+        volumes:
+            - ${POSTGRES_MASTER_DATA}:/var/lib/postgresql/data
+        environment:
+            - POSTGRES_DB=${POSTGRES_DB}
+            - POSTGRES_PASSWORD=${password}
+        networks:
+            - component-test-network
 
     #
     #
@@ -42,5 +59,6 @@ services:
     #         - R2DBC_PASSWORD=${R2DBC_PASSWORD}
         
 networks:
-  default:
-    name: contract-first-service
+    component-test-network:
+        name: component-test-network
+    

@@ -48,6 +48,7 @@ public class PersonController {
     private Person createPersonObject(){
         Person person = new Person();
 
+        // this gives null result
         personService.getPerson().count().subscribe(p->{ person.setId((int) (p + 1)); });
         person.setEmail("shin_nagai@gmail.com");
         person.setFirst_name("John");

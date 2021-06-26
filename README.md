@@ -16,4 +16,4 @@ reactive java repo for component test with docker/docker-compose.
 `.env` contains environment variables. `R2DBC_HOST_LOCALHOST` for localhost and change the value in `R2DBC_HOST_CONTAINER` when the instance of the running container changes. 
 
 
-Task definitions are written with [gradle properties](https://docs.gradle.org/current/dsl/org.gradle.api.Task.html#N187F7) 
+Task definitions are written in [gradle properties](https://docs.gradle.org/current/dsl/org.gradle.api.Task.html#N187F7) 
